@@ -1,0 +1,37 @@
+body {
+	background: #34495e;
+	margin: 0;
+	overflow: hidden;
+}
+
+#telecorrelator {
+	background: #2c3e50;
+	overflow: hidden;
+}
+
+#timeline-ticker {
+	border: 1px solid #e74c3c;
+	color: #e74c3c;
+}
+
+.timeline-wrapper {
+	white-space: nowrap;
+	overflow-x: scroll;
+	border: 1px solid #16a085;
+}
+
+.news-source-logo {
+	display: inline-block;
+	position: absolute;
+	background: #16a085;
+	height: inherit;
+}
+
+.timeline {
+	white-space: nowrap;
+	overflow-x: scroll;
+	cursor: move;
+	/*background: black;*/
+	width: 2000px;
+}
+
