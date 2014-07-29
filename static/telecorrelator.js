@@ -33,6 +33,7 @@ function init()
 	}
 	
 	newsSources = response.newsSources;
+	console.log (newsSources);
 
 	//set up telecorrelator
 	telecorrelator = document.getElementById('telecorrelator');
@@ -42,18 +43,59 @@ function init()
 	telecorrelator.style.height = y + "px";
 
 	// create a timeline for each news source
-	var temp = "<div class='timeline-wrapper' style='width:{width}px; height:{height}px;'><div class='news-source-logo'>{source}</div><div class='timeline' id='{source}' style='height:{height}px;'></div></div>",
+	var tempHtml = "<div class='timeline-wrapper' style='width:{width}px; height:{height}px;'><div class='news-source-logo'>{source}</div><div class='timeline' id='{source}' style='height:{height}px;'><div id='{loadingId}' class='contentLoading'>Content Loading...</div></div></div>",
 		html = '',
 		totalSources = newsSources.length,
-		timelineTickerHeight = 30,
+		tickerHeight = 30,
 		w = x,
-		h = (y - timelineTickerHeight) / totalSources - 3; //hack to account for border
+		h = (y - tickerHeight) / totalSources - 3; //hack to account for border
 	for (var i = 0; i < totalSources; i++) {
-		var sourceName = newsSources[i];
-		html += temp.replace(/\{height\}/g, h)
+		var sourceName = newsSources[i]["sourceName"],
+			loadingId = sourceName + "_loading";
+
+		html += tempHtml.replace(/\{height\}/g, h)
           .replace(/\{width\}/g, w)
-          .replace(/\{timelineTickerHeight\}/g, timelineTickerHeight)
-          .replace("{source}", sourceName);
+          .replace(/\{timelineTickerHeight\}/g, tickerHeight)
+          .replace("{source}", sourceName)
+          .replace("{source}", sourceName)
+          .replace("{loadingId}", loadingId);
+          // .replace("{content}", contentHtml);
 	}
-	telecorrelator.innerHTML = "<div id='timeline-ticker' style='width:" + 100 + "%; height:" + timelineTickerHeight + "px;'>timeline ticker here</div>" + html;
+	ticker = "<section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'> <figure class='front' id='timeline-ticker'>timeline ticker here</figure><figure class='back' id='trend-ticker'>trend ticker here</figure></div></section>";
+	telecorrelator.innerHTML = ticker + html;
+
+	//fill each timeline with ~ * ~ * C O N T E N T * ~ * ~
+
+	console.log ("totalSources: " + totalSources);
+
+	for (var i = 0; i < totalSources; i++) {
+		console.log(i);
+		var sourceName = newsSources[i]["sourceName"],
+		    timeline = document.getElementById(sourceName),
+			contentHtml = "",
+			content = newsSources[i]["content"],
+			totalContentObjects = content.length,
+			tempContentHtml = "<div class=content {keyword} title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px;'></div>";
+
+			console.log(content);
+		//here, go through the source's videos and plop them on the timeline
+		for (var j = 0; j < totalContentObjects; j++) {
+			contentHtml += tempContentHtml.replace(/\{height\}/g, h-5)
+				.replace(/\{backgroundImage\}/g, 'background-image:url("' + content[j]["thumbnail"] + '")')
+				.replace("{keyword}", "")
+				.replace("{title}", "'" + content[j]["title"] + "'")
+				.replace("{url}", content[j]["url"])
+				.replace("{timestamp}", content[j]["timestamp"]);
+		};
+
+		timeline.innerHTML = contentHtml;
+	};
+
+	//event listeners
+  
+	// document.getElementById('flip').addEventListener( 'click', function(){
+	// 	document.getElementById('card').toggleClassName('flipped');
+	// }, false);
+
+
 }

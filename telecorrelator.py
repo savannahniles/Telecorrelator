@@ -15,44 +15,52 @@ def telecorrelator():
 def getContent():
     # timeAvailable = request.args.get('t')
     errorCode = 0
-    renderObject = {
-        'title': 'Ultimate Media Remix',
-        'EDL': [{
-            'url': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
-            'startTime': 2.0,
-            'endTime': 5.0,
+    newsSources = [
+        {
+            'sourceName': "CNN",
+            'matchNames': ["CNN"],
+            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'content': []
         }, {
-            'url': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",              
-            'startTime': 2.0,
-            'endTime': 4.0,
+            'sourceName': "ABC", 
+            'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News"],
+            'thumbnail': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",
+            'content': []
         }, {
-            'url': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
-            'startTime': 54.0,
-            'endTime': 56.0,
+            'sourceName': "CBS", 
+            'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
+            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'content': []
         }, {
-            'url': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",
-            'startTime': 10.0,
-            'endTime': 13.0,
+            'sourceName': "BBC", 
+            'matchNames': ["BBC", "BBC News", "BBCnews"],
+            'thumbnail': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",
+            'content': []
         }, {
-            'url': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
-            'startTime': 34.0,
-            'endTime': 37.0,
-        }],
-    }
-    newsSources = ["CNN", "MSNBC", "Fox", "The Daily Show", "BBC", "ESPN"]
+            'sourceName': "ESPN",
+            'matchNames': ["ESPN"],
+            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'content': []
+        }
+    ]
+    trends = json.loads(urllib2.urlopen("http://um.media.mit.edu:5005/trends").read())['json_list']
 
-    # # perform some safety checks here to make sure the timeAvailable is a valid number
-    # if timeAvailable == "few":
-    #     timeAvailable = math.sqrt(10)
-    # else:
-    #     timeAvailable = float(timeAvailable)
-    # timeAvailable = max(0.0, timeAvailable)
-    # timeAvailable = min(60.0, timeAvailable)
-    # timeAvailable = timeAvailable * 60 # convert to seconds
+    for trend in trends:
+        UM_QUERY_API = "http://um-query.media.mit.edu/search/"
+        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8'))
+        umQueryResponse = json.loads(urllib2.urlopen(url).read())
+        if umQueryResponse["code"] == 0:
+            results = umQueryResponse["results"]
+            for video in results:
+                creator = video["creator"]
+                for source in newsSources:
+                    if creator in source["matchNames"]:
+                        video["trend"] = trend
+                        source["content"].append(video)
+                        break
 
-    # trends = json.loads(urllib2.urlopen("http://um.media.mit.edu:5005/trends").read())['json_list']
-    
-    # # print trends
+    #we want to pull every trend and search through those videos for our sources
+    #when we get a match, we want to append that video to the array of videos in the dictionary of sources
 
     # videos = []
     # for trend in trends:
