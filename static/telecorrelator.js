@@ -22,6 +22,43 @@ function getContent() {
 	request.send();
 }
 
+function fillTimelineTicker(tickerW, tickerH) {
+	//var w = 500,
+    //h = 300,
+    // var tickerX = d3.time.scale().range([0, tickerW]),  
+   	// 	xAxis = d3.svg.axis().scale(tickerX).orient("bottom").tickSize(-tickerH, 0).tickPadding(6); 
+
+    // var svg = d3.select("#timeline-ticker").append("svg:svg")
+	   //  .attr("width", tickerW)
+	   //  .attr("height", tickerH)
+	   //  .append("svg:g");
+
+    // svg.append("svg:g")
+	   //  .attr("class", "x axis")
+	   //  // .attr("transform", "translate(0," + tickerH + ")");
+
+    // svg.append("svg:rect")
+	   //  .attr("class", "pane")
+	   //  .attr("width", tickerW)
+	   //  .attr("height", tickerH)
+	   //  .call(d3.behavior.zoom().on("zoom", zoom));
+
+    // tickerX.domain([new Date(2012, 0, 1), new Date(2014, 0, 0)]);
+
+    // draw();
+
+    // function draw() {
+    //   console.log ("drawing");
+    //   svg.select("g.x.axis").call(xAxis);
+    // }
+
+    // function zoom() {
+    //   console.log("zooming");
+    //   // d3.event.transform(tickerX); // TODO d3.behavior.zoom should support extents
+    //   draw();
+    // }
+}
+
 function init()
 {
 	var response = JSON.parse(this.responseText);
@@ -61,8 +98,11 @@ function init()
           .replace("{loadingId}", loadingId);
           // .replace("{content}", contentHtml);
 	}
-	ticker = "<section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'> <figure class='front' id='timeline-ticker'>timeline ticker here</figure><figure class='back' id='trend-ticker'>trend ticker here</figure></div></section>";
+	ticker = "<section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh'></i></div><figure class='front' id='timeline-ticker'></figure><figure class='back' id='trend-ticker'>trend ticker here</figure></div></section>";
 	telecorrelator.innerHTML = ticker + html;
+
+	//fill the timeline ticker with ~ * ~ * T I M E * ~ * ~
+	fillTimelineTicker(w, tickerHeight)
 
 	//fill each timeline with ~ * ~ * C O N T E N T * ~ * ~
 
@@ -93,9 +133,15 @@ function init()
 
 	//event listeners
   
-	// document.getElementById('flip').addEventListener( 'click', function(){
-	// 	document.getElementById('card').toggleClassName('flipped');
-	// }, false);
+	document.getElementById('tickerFlipButton').addEventListener( 'click', function(){
+		tickerCard = document.getElementById('tickerCard');//.toggleClassName('flipped');
+		var className = ' ' + tickerCard.className + ' ';
+	    if ( ~className.indexOf(' flipped ') ) {
+	        tickerCard.className = className.replace(' flipped ', ' ');
+	    } else {
+	        tickerCard.className += ' flipped';
+	    }
+	}, false);
 
 
 }
