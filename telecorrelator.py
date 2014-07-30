@@ -19,27 +19,27 @@ def getContent():
         {
             'sourceName': "CNN",
             'matchNames': ["CNN"],
-            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'thumbnail': "http://www.logotypes101.com/logos/818/0DC42F494DC71D10AA9168972ECCFDD3/CNN282.png",
             'content': []
         }, {
             'sourceName': "ABC", 
             'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News"],
-            'thumbnail': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",
+            'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
             'content': []
         }, {
             'sourceName': "CBS", 
             'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
-            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
             'content': []
         }, {
             'sourceName': "BBC", 
             'matchNames': ["BBC", "BBC News", "BBCnews"],
-            'thumbnail': "http://um-static.media.mit.edu/UU-2QqLqnxXJc/UU-2QqLqnxXJc_low.mp4",
+            'thumbnail': "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT2VI5VQgveLK38CbIMeW5jO753dYaQuKdBLZQE6X1yR1Y3-p4oPxPshPg",
             'content': []
         }, {
             'sourceName': "ESPN",
             'matchNames': ["ESPN"],
-            'thumbnail': "http://um-static.media.mit.edu/UU-0MrczERAe4/UU-0MrczERAe4_low.mp4",
+            'thumbnail': "http://www.thereel-scoop.com/wp-content/uploads/2013/09/espn-logo.jpg",
             'content': []
         }
     ]
