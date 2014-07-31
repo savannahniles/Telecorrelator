@@ -3,6 +3,10 @@ import sys                                          # for obtaining command line
 import json                                         # for creating json objects to send to client
 import math                                         # for performing calculations
 import urllib2                                      # for querying other sites for content
+import datetime
+import dateutil.parser
+import re
+import random
 
 app = Flask(__name__)
 app.debug=True
@@ -11,10 +15,15 @@ app.debug=True
 def telecorrelator():
     return render_template('telecorrelator.html')
 
+@app.route('/source/<sourceName>')
+def show_source(sourceName):
+    return render_template('source.html', source=sourceName)
+
 @app.route('/getContent')
 def getContent():
     # timeAvailable = request.args.get('t')
     errorCode = 0
+    trendsList = []
     newsSources = [
         {
             'sourceName': "CNN",
@@ -39,7 +48,7 @@ def getContent():
         }, {
             'sourceName': "ESPN",
             'matchNames': ["ESPN"],
-            'thumbnail': "http://www.thereel-scoop.com/wp-content/uploads/2013/09/espn-logo.jpg",
+            'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
             'content': []
         }
     ]
@@ -47,7 +56,7 @@ def getContent():
 
     for trend in trends:
         UM_QUERY_API = "http://um-query.media.mit.edu/search/"
-        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8'))
+        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=all"
         umQueryResponse = json.loads(urllib2.urlopen(url).read())
         if umQueryResponse["code"] == 0:
             results = umQueryResponse["results"]
@@ -55,46 +64,30 @@ def getContent():
                 creator = video["creator"]
                 for source in newsSources:
                     if creator in source["matchNames"]:
-                        video["trend"] = trend
+                        video["trend"] = re.sub(r'\W+', '', trend) #remove spaces so it can be a class name
+                        video["timePeriod"] = getTimePeriod(video["timestamp"])
                         source["content"].append(video)
+                        if trend not in trendsList:
+                            trendsList.append(trend)
                         break
-
-    #we want to pull every trend and search through those videos for our sources
-    #when we get a match, we want to append that video to the array of videos in the dictionary of sources
-
-    # videos = []
-    # for trend in trends:
-    #     UM_QUERY_API = "http://um-query.media.mit.edu/search/"
-    #     desiredTime = timeAvailable / len(trends)
-    #     url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + '?duration=' + str(int(desiredTime))
-    #     umQueryResponse = json.loads(urllib2.urlopen(url).read())
-    #     if umQueryResponse["code"] == 0:
-    #         videos.append(umQueryResponse["results"][0])
-
-
-    # # generate the render object containing the playlist
-    # renderObject = {'EDL': [] }
-
-    # for video in videos:
-
-    #     url = video['videoHigh'] if video['videoHigh'] else ""
-    #     startTime = video['startTime'] if video['startTime'] else ""
-    #     endTime = video['endTime'] if video['endTime'] else ""
-    #     title = video['creator'] if video['creator'] else ""
-    #     thumbnail = video['thumbnail'] if video['thumbnail'] else ""
-
-    #     renderObject['EDL'].append(
-    #         {
-    #             'url': url,
-    #             'startTime': startTime,
-    #             'endTime': endTime,
-    #             'title': title,
-    #             'thumbnail': thumbnail
-    #         })
-
-    response = {'errorCode' : errorCode, 'newsSources' : newsSources}
+    response = {'errorCode' : errorCode, 'trends' : trendsList, 'newsSources' : newsSources}
     print response
     return json.dumps(response)
+
+def getTimePeriod (timestamp):
+    currentTime = datetime.datetime.now()
+    time = dateutil.parser.parse(timestamp).replace(tzinfo=None)
+    elapsedTime = currentTime - time
+    if elapsedTime.seconds <= 3600:
+        return "lastHour"
+    if elapsedTime.days <= 1:
+        return "today"
+    if elapsedTime.days <= 2:
+        return "yesterday"
+    if elapsedTime.days <= 7:
+        return "thisWeek"
+    return "older"
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

@@ -11,29 +11,28 @@ function getContent() {
 }
 
 function fillTimelineTicker() {
-	timeline = document.getElementById('timeline-ticker');
-	times = ["Last Hour", "Today", "Yesterday", "This Week", "All"]
-	list = ""
+	var timeline = document.getElementById('timeline-ticker'),
+		times = ["Last Hour", "Today", "Yesterday", "This Week", "All"],
+		list = "";
 	for (var i = 0; i < times.length; i++) {
 		list += "<li class='timeButton'>" + times[i] + "</li>";
 	};
 	timeline.innerHTML = "<ul class='horizontalList'>" + list + "</ul>";
 }
 
-function fillTrendTicker() {
-	trendTicker = document.getElementById('trend-ticker');
-	trend = ["Trend Here", "Another", "Gimme Dat Trend", "More Trends", "All"]
-	list = ""
-	for (var i = 0; i < trend.length; i++) {
-		list += "<li class='timeButton'>" + trend[i] + "</li>";
+function fillTrendTicker(trends) {
+	var trendTicker = document.getElementById('trend-ticker'),
+		list = "";
+	for (var i = 0; i < trends.length; i++) {
+		var trendClassName = trends[i].replace( /\W/g , '');
+		list += "<li onClick=telecorrelate('" + trendClassName + "') class='trendButton' id='" + trendClassName + "'>" + trends[i] + "</li>";
 	};
 	trendTicker.innerHTML = "<ul class='horizontalList'>" + list + "</ul>";
 }
 
 function init()
 {
-
-	//get window height
+	//get window height/width
 	var w = window,
 	    d = document,
 	    e = d.documentElement,
@@ -55,7 +54,7 @@ function init()
 	}
 	
 	newsSources = response.newsSources;
-	console.log (newsSources);
+	// console.log (newsSources);
 
 	//set up telecorrelator
 	telecorrelator = document.getElementById('telecorrelator');
@@ -69,7 +68,7 @@ function init()
 		html = '',
 		totalSources = newsSources.length,
 		tickerHeight = 30,
-		w = x,
+		// w = 4000,
 		h = (y - tickerHeight) / totalSources - 3; //hack to account for border
 	for (var i = 0; i < totalSources; i++) {
 		var sourceName = newsSources[i]["sourceName"],
@@ -77,52 +76,53 @@ function init()
 			loadingId = sourceName + "_loading";
 
 		html += tempHtml.replace(/\{height\}/g, h)
-          .replace(/\{width\}/g, w)
+          .replace(/\{width\}/g, newsSources[i]["content"].length*130+120)
           .replace(/\{timelineTickerHeight\}/g, tickerHeight)
           .replace("{sourceImage}", sourceImage)
           .replace("{sourceName}", sourceName)
           .replace("{loadingId}", loadingId);
           // .replace("{content}", contentHtml);
 	}
-	ticker = "<section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh fa-lg'></i></div><figure class='front' id='timeline-ticker'></figure><figure class='back' id='trend-ticker'>trend ticker here</figure></div></section>";
+	ticker = "<div id='slider'></div><section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh fa-lg'></i></div><figure class='back' id='timeline-ticker'></figure><figure class='front' id='trend-ticker'>trend ticker here</figure></div></section>";
 	telecorrelator.innerHTML = ticker + html;
 
 	//fill the timeline ticker with ~ * ~ * T I M E * ~ * ~
 	fillTimelineTicker();
 
 	//fill the trend ticker with ~ * ~ * T R E N D S * ~ * ~
-	fillTrendTicker();
+	trendsList = response.trends;
+	fillTrendTicker(trendsList);
 
 	//fill each timeline with ~ * ~ * C O N T E N T * ~ * ~
-
-	console.log ("totalSources: " + totalSources);
-
 	for (var i = 0; i < totalSources; i++) {
-		console.log(i);
 		var sourceName = newsSources[i]["sourceName"],
 		    timeline = document.getElementById(sourceName),
 			contentHtml = "",
 			content = newsSources[i]["content"],
 			contentPadding = 7,
 			totalContentObjects = content.length,
-			tempContentHtml = "<div class=content {keyword} title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px;'></div>";
+			tempContentHtml = "<div onclick=contentClicked() class='content {trend} {timePeriod}' title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px; margin-left:{margin}px'></div>"
+			lastTrend = "";
 
-			console.log(content);
 		//here, go through the source's videos and plop them on the timeline
 		for (var j = 0; j < totalContentObjects; j++) {
+			//look to see if margin should be added
+			margin = 30;
+			if (lastTrend === content[j]["trend"]) {
+				margin = 0;
+			}
+			lastTrend = content[j]["trend"];
 			contentHtml += tempContentHtml.replace(/\{height\}/g, h-2*contentPadding)
+				.replace(/\{margin\}/g, margin)
 				.replace(/\{backgroundImage\}/g, 'background-image:url("' + content[j]["thumbnail"] + '")')
-				.replace("{keyword}", "")
+				.replace("{trend}", content[j]["trend"])
+				.replace("{timePeriod}", content[j]["timePeriod"])
 				.replace("{title}", "'" + content[j]["title"] + "'")
-				.replace("{url}", content[j]["url"])
+				.replace("{url}", content[j]["videoHigh"])
 				.replace("{timestamp}", content[j]["timestamp"]);
 		};
-
 		timeline.innerHTML = contentHtml;
 	};
-
-	//vertically center logos
-
 
 	//event listeners
   
@@ -134,6 +134,7 @@ function init()
 	    } else {
 	        tickerCard.className += ' flipped';
 	    }
+	    resetTelecorrelator();
 	}, false);
 
 	//loading screen
@@ -142,5 +143,70 @@ function init()
 		document.getElementById('loading').style.height = '0px';
 	}, 1000);
 
+
+}
+
+function telecorrelate(trendName) {
+	// console.log (event);
+
+	//highlight selected trend name
+	var selects = document.getElementsByClassName("trendButton");
+	for(var i =0, il = selects.length;i<il;i++){
+	     selects[i].style.color = '#ffffff';
+	  }
+	event.target.style.color = "#2c3e50"; //'#FCFF32';
+
+	//get the x of the mouse click and create an x-origin that makes sense
+	var x = event.x;
+	var slider = document.getElementById("slider");
+
+	//move slider to the position
+	slider.style.left = x + "px";
+
+	//get the videos with the trends
+	//go through each source, get children videos with the trend class, take the first
+	for (var i = 0; i < newsSources.length; i++) {
+		
+		var timeline = document.getElementById(newsSources[i].sourceName);
+		var matchingVideo = $(timeline).children("." + trendName)[0];
+
+		if (matchingVideo) {
+			// console.log(matchingVideo);
+			//move the timeline over to the spot
+
+			//move timeline to position
+			var blockPosition = $(matchingVideo).position().left;
+
+			// console.log ("blockPosition = " + blockPosition);
+			// console.log ("x = " + x);
+			// console.log ("*");
+
+			var d = x - blockPosition - 50; //margin of telecorrelator and margin of block
+			// console.log(d);
+			timeline.style.opacity = 1;
+			timeline.style.left = d + "px";
+			
+		}
+		else {
+			//move the whole shit out of the way.
+			console.log("Nothing for: " + newsSources[i].sourceName);
+			timeline.style.left = x + "px";
+		}
+
+	};
+
+}
+
+function resetTelecorrelator() {
+	var timelines = document.getElementsByClassName("timeline");
+	// console.log (timelines);
+	for (var i = 0; i < timelines.length; i++) {
+		timelines[i].style.left = "0px";
+	};
+	document.getElementById("slider").style.left = "-300px";
+	var selects = document.getElementsByClassName("trendButton");
+	for(var i =0, il = selects.length;i<il;i++){
+	     selects[i].style.color = '#ffffff';
+	  }
 
 }

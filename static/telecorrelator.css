@@ -18,6 +18,20 @@ body {
     transition: opacity .5s;
 }
 
+#slider {
+	position: absolute;
+	height: inherit;
+	width: 100px; /*arbitrary*/
+	background: #1abc9c;
+	left: -300px; /*arbitrary*/
+	z-index: -1000;
+	-webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
+    transition: width .5s;
+    -webkit-transition: left .5s; /* For Safari 3.1 to 6.0 */
+    transition: left .5s;
+
+}
+
 /*-------        Header        -------*/
 
 #header {
@@ -84,6 +98,7 @@ body {
   	height: 100%;
   	backface-visibility: hidden;
   	margin-left: 35px;
+  	padding-left: 45px;
   	overflow-x: scroll;
 }
 
@@ -111,14 +126,25 @@ body {
 	list-style-type: none;
 	padding-left: 25px;
 	cursor: pointer;
+	white-space: nowrap;
+	overflow-x: scroll;
+}
+
+.horizontalList li:last-child {
+	padding-right: 200px;
+}
+
+#activeTrend {
+	color: #2c3e50;
 }
 
 /*-------        Timelines        -------*/
 
 .timeline-wrapper {
 	white-space: nowrap;
-	overflow-x: scroll;
+	/*overflow-x: scroll;*/
 	border-bottom: 2px solid #bdc3c7;
+	min-width: 100%;
 }
 
 .news-source-logo {
@@ -130,6 +156,7 @@ body {
 	overflow: hidden;
 	text-align: center;
 	border-right: 2px dashed #bdc3c7;
+	z-index: 3;
 }
 
 .news-source-logo img {
@@ -139,10 +166,14 @@ body {
 
 .timeline {
 	white-space: nowrap;
-	overflow-x: scroll;
+	overflow-x: visible;
 	overflow-y: hidden;
 	cursor: move;
-	padding-left: 110px;
+	padding-left: 90px;
+	position: relative;
+	left: 0px;
+	-webkit-transition: left .5s; /* For Safari 3.1 to 6.0 */
+    transition: left .5s;
 }
 
 /*-------        Content blocks        -------*/
@@ -151,7 +182,8 @@ body {
 	width: 100px;
 	display: inline-block;
 	background-size: cover;
-	margin: 7px;
-	border-radius: 4px;
+	background-position: center;
+	margin: 7px 0;
+	border-radius: 8px;
 }
 

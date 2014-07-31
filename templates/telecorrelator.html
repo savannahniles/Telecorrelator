@@ -3,16 +3,18 @@
 	<head>
 		<title>TeleCorrelator</title>
 
+		<!-- jquery -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 		<link rel="stylesheet" href="/static/telecorrelator.css"></link>
 		<script src="/static/telecorrelator.js"></script>
 		<!-- <script src="um-video-player.js"></script> -->
 
-		<!-- d3 -->
-		<script src="http://mbostock.github.io/d3/talk/20111018/d3/d3.js"></script>
-		<script src="http://mbostock.github.io/d3/talk/20111018/d3/d3.csv.js"></script>
-		<script src="http://mbostock.github.io/d3/talk/20111018/d3/d3.time.js"></script>
-
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<!-- UM events-->
+   		<script src="http://um-events.media.mit.edu:10002/socket.io/socket.io.js"></script>
+    	<script src="http://um-events.media.mit.edu:10002/client.js"></script>
 
 	</head>
 	<body onload=getContent()>
