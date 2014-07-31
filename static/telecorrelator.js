@@ -161,7 +161,7 @@ function telecorrelate(trendName) {
 	var slider = document.getElementById("slider");
 
 	//move slider to the position
-	slider.style.left = x + "px";
+	slider.style.left = x - 10 + "px";
 
 	//get the videos with the trends
 	//go through each source, get children videos with the trend class, take the first
@@ -190,7 +190,12 @@ function telecorrelate(trendName) {
 		else {
 			//move the whole shit out of the way.
 			console.log("Nothing for: " + newsSources[i].sourceName);
-			timeline.style.left = x + "px";
+			if ( x <= document.getElementById("telecorrelator").clientWidth / 2) { 
+				timeline.style.left = x + "px";
+			}
+			else {
+				timeline.style.left = x + 70 + slider.clientWidth - timeline.clientWidth + "px";
+			}
 		}
 
 	};
