@@ -205,7 +205,7 @@ function telecorrelate(trendName) {
 				timeline.style.left = x + "px";
 			}
 			else {
-				timeline.style.left = x + 70 + slider.clientWidth - timeline.clientWidth + "px";
+				timeline.style.left = x + 140 + slider.clientWidth - timeline.clientWidth + "px";
 			}
 		}
 
