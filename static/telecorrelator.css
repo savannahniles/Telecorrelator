@@ -21,7 +21,7 @@ body {
 #slider {
 	position: absolute;
 	height: inherit;
-	width: 100px; /*arbitrary*/
+	width: 200px; /*arbitrary*/
 	background: #1abc9c;
 	left: -300px; /*arbitrary*/
 	z-index: -1000;
