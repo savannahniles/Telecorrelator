@@ -79,7 +79,7 @@ function init()
 			loadingId = sourceName + "_loading";
 
 		html += tempHtml.replace(/\{height\}/g, h)
-          .replace(/\{width\}/g, newsSources[i]["content"].length*130+120)
+          .replace(/\{width\}/g, newsSources[i]["content"].length*230+120)
           .replace(/\{timelineTickerHeight\}/g, tickerHeight)
           .replace("{sourceImage}", sourceImage)
           .replace("{sourceName}", sourceName)
