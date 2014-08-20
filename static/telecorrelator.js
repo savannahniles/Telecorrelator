@@ -202,10 +202,10 @@ function telecorrelate(trendName) {
 			//move the whole shit out of the way.
 			console.log("Nothing for: " + newsSources[i].sourceName);
 			if ( x <= document.getElementById("telecorrelator").clientWidth / 2) { 
-				timeline.style.left = x + "px";
+				timeline.style.left = x +100 + "px";
 			}
 			else {
-				timeline.style.left = x + 140 + slider.clientWidth - timeline.clientWidth + "px";
+				timeline.style.left = x - 270 + slider.clientWidth - timeline.clientWidth + "px";
 			}
 		}
 
