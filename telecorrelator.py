@@ -42,15 +42,20 @@ def getContent():
             'content': []
         }, {
             'sourceName': "BBC", 
-            'matchNames': ["BBC", "BBC News", "BBCnews"],
+            'matchNames': ["BBC", "BBC News", "BBCnews", "BBC World News"],
             'thumbnail': "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT2VI5VQgveLK38CbIMeW5jO753dYaQuKdBLZQE6X1yR1Y3-p4oPxPshPg",
             'content': []
         }, {
-            'sourceName': "ESPN",
-            'matchNames': ["ESPN"],
-            'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+            'sourceName': "Fox",
+            'matchNames': ["FOX (WFXT)"],
+            'thumbnail': "http://sbg.okcfox.com/newsroom/morning_news/images/kokh_ms_stopframe_320x240.jpg",
             'content': []
-        }
+        }#,  {
+        #     'sourceName': "ESPN",
+        #     'matchNames': ["ESPN"],
+        #     'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+        #     'content': []
+        # }
     ]
     trends = json.loads(urllib2.urlopen("http://um.media.mit.edu:5005/trends").read())['json_list']
 
