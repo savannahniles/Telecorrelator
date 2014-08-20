@@ -50,10 +50,15 @@ def getContent():
             'matchNames': ["FOX (WFXT)"],
             'thumbnail': "http://sbg.okcfox.com/newsroom/morning_news/images/kokh_ms_stopframe_320x240.jpg",
             'content': []
+        },  {
+            'sourceName': "ESPN",
+            'matchNames': ["ESPN"],
+            'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+            'content': []
         }#,  {
-        #     'sourceName': "ESPN",
+        #     'sourceName': "Helios",
         #     'matchNames': ["ESPN"],
-        #     'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+        #     'thumbnail': "http://um-helios.media.mit.edu/resources/Helios.png",
         #     'content': []
         # }
     ]
