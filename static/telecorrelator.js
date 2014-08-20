@@ -32,6 +32,9 @@ function fillTrendTicker(trends) {
 
 function init()
 {
+	//connect to UM events
+	UMevents.clientname("um-telecorrelator");
+
 	//get window height/width
 	var w = window,
 	    d = document,
@@ -185,6 +188,14 @@ function telecorrelate(trendName) {
 			// console.log(d);
 			timeline.style.opacity = 1;
 			timeline.style.left = d + "px";
+
+			var gestureData = {
+				"source": newsSources[i].sourceName,
+				"video": matchingVideo.attributes.url.nodeValue
+			};
+			console.log(gestureData);
+			console.log('emitting event...');
+    		UMevents.emit('telecorrelate', gestureData);
 			
 		}
 		else {
