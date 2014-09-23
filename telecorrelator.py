@@ -35,11 +35,11 @@ def getContent():
             'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News"],
             'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
             'content': []
-        }, {
-            'sourceName': "CBS", 
-            'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
-            'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
-            'content': []
+        # }, {
+        #     'sourceName': "CBS", 
+        #     'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
+        #     'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
+        #     'content': []
         }, {
             'sourceName': "BBC", 
             'matchNames': ["BBC", "BBC News", "BBCnews", "BBC World News"],
@@ -50,12 +50,12 @@ def getContent():
             'matchNames': ["FOX (WFXT)"],
             'thumbnail': "http://sbg.okcfox.com/newsroom/morning_news/images/kokh_ms_stopframe_320x240.jpg",
             'content': []
-        },  {
-            'sourceName': "ESPN",
-            'matchNames': ["ESPN"],
-            'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
-            'content': []
         }#,  {
+        #     'sourceName': "ESPN",
+        #     'matchNames': ["ESPN"],
+        #     'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+        #     'content': []
+        # },  {
         #     'sourceName': "Helios",
         #     'matchNames': ["ESPN"],
         #     'thumbnail': "http://um-helios.media.mit.edu/resources/Helios.png",

@@ -1,6 +1,7 @@
 var telecorrelator; //= document.getElementById('telecorrelator');
 var newsSources;
 // var newsSources = ["CNN", "MSNBC", "Fox", "The Daily Show", "BBC", "ESPN"]
+var player;
 
 function getContent() {
 	var request = new XMLHttpRequest();
@@ -72,7 +73,9 @@ function init()
 		totalSources = newsSources.length,
 		tickerHeight = 30,
 		// w = 4000,
-		h = (y - tickerHeight) / totalSources - 3; //hack to account for border
+		// videoHeight = (y - tickerHeight ) / 2;
+		videoHeight = (y - tickerHeight );
+		h = videoHeight / totalSources - 3; //hack to account for border
 	for (var i = 0; i < totalSources; i++) {
 		var sourceName = newsSources[i]["sourceName"],
 			sourceImage = newsSources[i]["thumbnail"],
@@ -86,7 +89,10 @@ function init()
           .replace("{loadingId}", loadingId);
           // .replace("{content}", contentHtml);
 	}
-	ticker = "<div id='slider'></div><section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh fa-lg'></i></div><figure class='back' id='timeline-ticker'></figure><figure class='front' id='trend-ticker'>trend ticker here</figure></div></section>";
+	var ticker = "<div id='slider'></div><section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh fa-lg'></i></div><figure class='back' id='timeline-ticker'></figure><figure class='front' id='trend-ticker'>trend ticker here</figure></div></section>";
+	// var umVideoDiv = "<div id='um-video-wrapper' style='height:" + videoHeight + "px;' onclick=videoClicked() onmousemove=mouseMove()></div>";
+	
+	// telecorrelator.innerHTML = ticker + umVideoDiv + html;
 	telecorrelator.innerHTML = ticker + html;
 
 	//fill the timeline ticker with ~ * ~ * T I M E * ~ * ~
@@ -127,6 +133,9 @@ function init()
 		timeline.innerHTML = contentHtml;
 	};
 
+	//fill the video player with content 
+	// fillVideo();
+
 	//event listeners
   
 	document.getElementById('tickerFlipButton').addEventListener( 'click', function(){
@@ -146,11 +155,102 @@ function init()
 		document.getElementById('loading').style.height = '0px';
 	}, 1000);
 
+}
 
+function fillVideo(renderObject)
+{
+	if (player)
+	{
+		// if a video is already playing we should pause it while we prepare and load the next videos
+		delete player;
+		player = undefined;
+
+		// remove any currently existing video elements
+		videoContainer = document.getElementById('um-video-wrapper');
+		while (videoContainer.hasChildNodes()) {
+			videoContainer.removeChild(videoContainer.lastChild);
+		}
+
+	}
+
+	//fill the video with the umplayer
+	var videoWrapper = document.getElementById('um-video-wrapper');
+	var renderObject = {
+	    EDL: [{
+	        url: "http://um-static.media.mit.edu/EP018549150103_2014-08-28T04:30Z/EP018549150103_2014-08-28T04:30Z_high.mp4",
+	        startTime: 1.0,
+	        endTime: 4.0,
+	    }, {
+	        url: "http://um-static.media.mit.edu/EP018549150103_2014-08-28T04:30Z/EP018549150103_2014-08-28T04:30Z_high.mp4",
+	        startTime: 6.5,
+	        endTime: 14.0,
+	    }, {
+	        url: "http://um-static.media.mit.edu/EP018549150103_2014-08-28T04:30Z/EP018549150103_2014-08-28T04:30Z_high.mp4",
+	        startTime: 17.0,
+	        endTime: 25.0,
+	    }],
+	};
+
+	function videoReadyHandler() {        
+		console.log("video ready");
+        // start the video paused
+		player.pause();
+    }
+
+    function finishedHandler() {
+        console.log("finished");
+    }
+
+    function loadingStartedHandler() {
+        console.log("loaading started");
+    }
+
+    function loadingStoppedHandler() {
+        console.log("loadingstopped");
+    }
+
+    function playHandler() {
+    	console.log("play");
+    }
+
+    function pauseHandler() {
+    	console.log("paused");
+    }
+
+    function timeUpdateHandler() {
+    	// console.log('time update');
+    }
+
+	player = new UMVideoPlayer('um-video-wrapper', renderObject, {
+        "transitionTime" : .3,
+        "classString" : "um-videoPlayer",
+        // "autoReload" : true,
+        // "autoLoadDuration" : true,
+        "finishedHandler" : finishedHandler,
+        "loadingStartedHandler" : loadingStartedHandler,
+        "loadingStoppedHandler" : loadingStoppedHandler,
+        "playHandler" : playHandler,
+        "pauseHandler" : pauseHandler,
+        "timeUpdateHandler" : timeUpdateHandler,
+        "videoReadyHandler" : videoReadyHandler
+    });
+}
+
+function videoClicked()
+{
+	player.togglePlayPause();
+	console.log("toggling");
+	// mouseMove();
+}
+
+function mouseMove()
+{
+	//hide controls container
 }
 
 function telecorrelate(trendName) {
 	// console.log (event);
+	var renderObject = {}
 
 	//highlight selected trend name
 	var selects = document.getElementsByClassName("trendButton");
@@ -171,6 +271,7 @@ function telecorrelate(trendName) {
 	for (var i = 0; i < newsSources.length; i++) {
 		
 		var timeline = document.getElementById(newsSources[i].sourceName);
+		var matchingVideos = $(timeline).children("." + trendName);
 		var matchingVideo = $(timeline).children("." + trendName)[0];
 
 		if (matchingVideo) {
@@ -210,6 +311,10 @@ function telecorrelate(trendName) {
 		}
 
 	};
+
+	//change video with shit from trends
+
+	// fillVideo(renderObject);
 
 }
 

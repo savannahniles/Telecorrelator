@@ -25,10 +25,10 @@ body {
 	background: #1abc9c;
 	left: -300px; /*arbitrary*/
 	z-index: -1000;
-	-webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
-    transition: width .5s;
-    -webkit-transition: left .5s; /* For Safari 3.1 to 6.0 */
-    transition: left .5s;
+	-webkit-transition: width .75s; /* For Safari 3.1 to 6.0 */
+    transition: width .75s;
+    -webkit-transition: left .75s; /* For Safari 3.1 to 6.0 */
+    transition: left .75s;
     padding: 0 10px;
 
 }
@@ -139,6 +139,12 @@ body {
 	color: #2c3e50;
 }
 
+/*-------        Video Player      -------*/
+
+#um-video-wrapper video {
+	height: inherit;
+}
+
 /*-------        Timelines        -------*/
 
 .timeline-wrapper {
@@ -173,8 +179,8 @@ body {
 	padding-left: 90px;
 	position: relative;
 	left: 0px;
-	-webkit-transition: left .5s; /* For Safari 3.1 to 6.0 */
-    transition: left .5s;
+	-webkit-transition: left .75s; /* For Safari 3.1 to 6.0 */
+    transition: left .75s;
 }
 
 /*-------        Content blocks        -------*/
