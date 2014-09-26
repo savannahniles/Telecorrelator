@@ -66,7 +66,7 @@ def getContent():
 
     for trend in trends:
         UM_QUERY_API = "http://um-query.media.mit.edu/search/"
-        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=all" #+ "&after=2014-04-01T04:00:00.000Z"
+        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=scene" #+ "&after=2014-04-01T04:00:00.000Z"
         umQueryResponse = json.loads(urllib2.urlopen(url).read())
         if umQueryResponse["code"] == 0:
             results = umQueryResponse["results"]

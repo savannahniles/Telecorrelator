@@ -54,6 +54,7 @@ function UMVideoPlayer(videoContainerID, renderObject, options) {
     this.pauseHandler = options.pauseHandler;
     this.timeUpdateHandler = options.timeUpdateHandler;
     this.videoReadyHandler = options.videoReadyHandler;
+    this.clipStartHandler = options.clipStartHandler;
 
 
     // --------------------------------------------------
@@ -144,6 +145,10 @@ function UMVideoPlayer(videoContainerID, renderObject, options) {
             }
         }
         this.isPlaying = false;
+    }
+
+    this.returnClipIndex = function() {
+        return self.currentClipIndex;
     }
 
     this.seekToClipIndex = function(clipIndex) {
@@ -459,6 +464,11 @@ function UMVideoPlayer(videoContainerID, renderObject, options) {
         if (self.playHandler && self.sendPlayEvent) {
             self.playHandler.call(self);
         }
+
+        if (self.clipStartHandler) {
+                self.clipStartHandler.call(self);
+        }
+
         self.sendPlayEvent = false;
     }
 
