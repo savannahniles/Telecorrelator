@@ -20,7 +20,8 @@ body {
 
 #slider {
 	position: absolute;
-	height: inherit;
+	height: 100%;
+	top: 50%;
 	width: 200px; /*arbitrary*/
 	background: #1abc9c;
 	left: -300px; /*arbitrary*/
@@ -31,6 +32,10 @@ body {
     transition: left .75s;
     padding: 0 10px;
 
+}
+
+.selectedSource, .selectedSource .news-source-logo {
+	background: #1abc9c;
 }
 
 /*-------        Header        -------*/
@@ -116,6 +121,11 @@ body {
   transform: rotateX( 180deg );
 }
 
+#trend-ticker .horizontalList {
+	position: relative;
+	transition: left .75s;
+}
+
 .horizontalList {
 	margin-top: 6px;
 	margin-bottom: 0px;
@@ -141,8 +151,47 @@ body {
 
 /*-------        Video Player      -------*/
 
+#um-video-plus-info-wrapper {
+    background: #1abc9c;
+}
+
+#um-video-wrapper {
+	display: inline-block;
+	background: black;
+}
+
 #um-video-wrapper video {
 	height: inherit;
+}
+
+#video-info {
+	display: inline-block;
+	padding: 0px 20px;
+	position: absolute;
+	/*top: -20px;*/
+	color: white;
+}
+
+#video-info h1, #video-info h2, #video-info h3 {
+	margin: 0px;
+	font-weight: 300;
+	letter-spacing: 0px;
+}
+
+#video-info h1, #video-info h2 {
+	display: inline-block;
+}
+
+#video-info h1 {
+	font-size: 64px;
+}
+
+#video-info h2 {
+	padding-left: 10px;
+}
+
+.blue {
+	color: #34495e;
 }
 
 /*-------        Timelines        -------*/
