@@ -13,26 +13,6 @@ function getContent() {
 	request.send();
 }
 
-// function fillTimelineTicker() {
-// 	var timeline = document.getElementById('timeline-ticker'),
-// 		times = ["Last Hour", "Today", "Yesterday", "This Week", "All"],
-// 		list = "";
-// 	for (var i = 0; i < times.length; i++) {
-// 		list += "<li class='timeButton'>" + times[i] + "</li>";
-// 	};
-// 	timeline.innerHTML = "<ul class='horizontalList'>" + list + "</ul>";
-// }
-
-// function fillTrendTicker(trends) {
-// 	var trendTicker = document.getElementById('trend-ticker'),
-// 		list = "";
-// 	for (var i = 0; i < trends.length; i++) {
-// 		var trendClassName = trends[i].replace( /\W/g , '');
-// 		list += "<li onClick=telecorrelate('" + trendClassName + "') class='trendButton' id='" + trendClassName + "'>" + trends[i] + "</li>";
-// 	};
-// 	trendTicker.innerHTML = "<ul class='horizontalList'>" + list + "</ul>";
-// }
-
 function createRenderObject(content) {
 	var totalContentObjects = content.length;
 	var EDL = [];
@@ -46,12 +26,12 @@ function createRenderObject(content) {
 
 		var contentObject = {
 			"trend": trend,
-			"startTime": 1.0,  //fornow
-			"endTime": 3.0, //fornow
+			"startTime": startTime,  
+			"endTime": endTime, 
 			"title": title,
 			"transcript": transcript,
-			// "url": url   //for now
-			"url": "http://um-static.media.mit.edu/EP018549150103_2014-08-28T04:30Z/EP018549150103_2014-08-28T04:30Z_high.mp4"
+			"url": url   //for now
+			// "url": "http://um-static.media.mit.edu/EP018549150103_2014-08-28T04:30Z/EP018549150103_2014-08-28T04:30Z_high.mp4"
 		};
 
 		EDL.push(contentObject);
@@ -64,8 +44,6 @@ function createRenderObject(content) {
 
 function init()
 {
-	//connect to UM events
-	// UMevents.clientname("um-telecorrelator");
 
 	//get window height/width
 	var w = window,
@@ -97,7 +75,7 @@ function init()
 	telecorrelator.style.height = y + "px";
 
 	// create a timeline for each news source
-	var tempHtml = "<div class='timeline-wrapper' style='width:{width}px; height:{height}px;'><div class='news-source-logo'><img src='{sourceImage}'></div><div class='timeline' id='{sourceName}' style='height:{height}px;'><div id='{loadingId}' class='contentLoading'>Content Loading...</div></div></div>",
+	var tempHtml = "<div class='timeline-wrapper' style='width:{width}px; height:{height}px;'><div class='news-source-logo' value='{source}' onclick=switchSource(event)><img src='{sourceImage}' value='{source}'></div><div class='timeline' id='{sourceName}' style='height:{height}px;'><div id='{loadingId}' class='contentLoading'>Content Loading...</div></div></div>",
 		html = '',
 		totalSources = newsSources.length,
 		tickerHeight = 0,
@@ -116,22 +94,16 @@ function init()
           .replace(/\{width\}/g, newsSources[i]["content"].length*230+120)
           .replace(/\{timelineTickerHeight\}/g, tickerHeight)
           .replace("{sourceImage}", sourceImage)
+          .replace("{source}", sourceName)
+          .replace("{source}", sourceName)
           .replace("{sourceName}", sourceName)
           .replace("{loadingId}", loadingId);
 	}
 	var slider = "<div id='slider'></div>",
-		ticker = "<section id='tickerContainer' style='height:" + tickerHeight + "px;'><div id='tickerCard'><div id='tickerFlipButton'><i class='fa fa-refresh fa-lg'></i></div><figure class='back' id='timeline-ticker'></figure><figure class='front' id='trend-ticker'>trend ticker here</figure></div></section>",
-		umVideoDiv = "<div id='um-video-plus-info-wrapper'><div id='um-video-wrapper' style='height:" + videoHeight + "px;' onclick=videoClicked() onmousemove=mouseMove()></div>",
+		umVideoDiv = "<div id='um-video-plus-info-wrapper' style='height:" + videoHeight + "px'><div id='um-video-wrapper' style='height:" + videoHeight + "px;' onclick=videoClicked() onmousemove=mouseMove()></div>",
 		videoInfo = "<div id='video-info' style='height:" + videoHeight + "px;'><h1 id='trend-info'></h1><h2 id='title-info'></h2><h3 id='cc-info'></h3></div></div>";
 	
-	telecorrelator.innerHTML = slider + /*ticker +*/ umVideoDiv + videoInfo + html;
-
-	// //fill the timeline ticker with ~ * ~ * T I M E * ~ * ~
-	// fillTimelineTicker();
-
-	// //fill the trend ticker with ~ * ~ * T R E N D S * ~ * ~
-	// trendsList = response.trends;
-	// fillTrendTicker(trendsList);
+	telecorrelator.innerHTML = slider + umVideoDiv + videoInfo + html;
 
 	//fill each timeline with ~ * ~ * C O N T E N T * ~ * ~
 	for (var i = 0; i < totalSources; i++) {
@@ -141,7 +113,7 @@ function init()
 			content = newsSources[i]["content"],
 			contentPadding = 7,
 			totalContentObjects = content.length,
-			tempContentHtml = "<div onclick=contentClicked() class='content {trend} {timePeriod}' title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px; margin-left:{margin}px'></div>"
+			tempContentHtml = "<div onclick=contentClicked() class='content {trend} {timePeriod}' id='{id}' title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px; margin-left:{margin}px'></div>"
 			lastTrend = "";
 
 		//here, go through the source's videos and plop them on the timeline
@@ -158,6 +130,7 @@ function init()
 				.replace("{timePeriod}", content[j]["timePeriod"])
 				.replace("{title}", "'" + content[j]["title"] + "'")
 				.replace("{url}", content[j]["videoHigh"])
+				.replace("{id}", content[j]["trend"] + "-" + j)
 				.replace("{timestamp}", content[j]["timestamp"]);
 		};
 		timeline.innerHTML = contentHtml;
@@ -171,28 +144,16 @@ function init()
 	fillVideo(renderObject);
 
 	//event listeners
-	// document.getElementById('tickerFlipButton').addEventListener( 'click', function(){
-	// 	tickerCard = document.getElementById('tickerCard');//.toggleClassName('flipped');
-	// 	var className = ' ' + tickerCard.className + ' ';
-	//     if ( ~className.indexOf(' flipped ') ) {
-	//         tickerCard.className = className.replace(' flipped ', ' ');
-	//     } else {
-	//         tickerCard.className += ' flipped';
-	//     }
-	//     resetTelecorrelator();
-	// }, false);
+
 
 	//loading screen--reveal
+	document.getElementById('loading').innerHTML = "";
 	document.getElementById('loading').style.opacity = 0;
 	setTimeout( function() {
 		document.getElementById('loading').style.height = '0px';
 	}, 1000);
 
 }
-
-// function centerVideo() {
-// 	document.getElementById("um-video-wrapper").style.left = window.innerWidth / 2 - document.getElementById("um-video-wrapper").firstChild.offsetWidth * .5 + "px";
-// }
 
 function fillVideo(renderObject)
 {
@@ -215,14 +176,14 @@ function fillVideo(renderObject)
 
 	//callbacks for player
 	function videoReadyHandler() {        
-		// console.log("video ready");
         // start the video paused
 		player.pause();
-		document.getElementById("um-video-wrapper").style.width = document.getElementById("um-video-wrapper").firstChild.offsetWidth + "px";
     }
 
     function playHandler() {
     	console.log("play");
+    	document.getElementById("um-video-wrapper").style.width = document.getElementById("um-video-wrapper").firstChild.offsetWidth + "px";
+
     }
 
     function pauseHandler() {
@@ -230,7 +191,6 @@ function fillVideo(renderObject)
     }
 
     function clipStartHandler() {
-    	// console.log('clip started');
     	clipIndex = player.returnClipIndex();
     	trend = renderObject["EDL"][clipIndex]["trend"];
     	console.log('clip:' + clipIndex);
@@ -240,15 +200,11 @@ function fillVideo(renderObject)
     		titleInfo = document.getElementById('title-info'),
     		ccInfo = document.getElementById('cc-info');
 
-    	// trendInfo.innerHtml = trend;
-    	// titleInfo.innerHtml = renderObject["EDL"][clipIndex]["title"];
-    	// ccInfo.innerHtml = renderObject["EDL"][clipIndex]["transcript"];
-
     	console.log(trendInfo);
 
     	trendInfo.innerHTML = trend + " ";
     	titleInfo.innerHTML = renderObject["EDL"][clipIndex]["title"];
-    	ccInfo.innerHTML = "Transcript: " + renderObject["EDL"][clipIndex]["transcript"] + "</br>" + "<span class='blue'>Up next: " + renderObject["EDL"][clipIndex + 1]["trend"] + "</span>";
+    	ccInfo.innerHTML = /*"Transcript: " + renderObject["EDL"][clipIndex]["transcript"] + "</br>" + */"Playing next: <span class='blue' onclick=goToNextVideo()>" + renderObject["EDL"][clipIndex + 1]["trend"] + " <i class='fa fa-long-arrow-right'></i></span>";
 
     	telecorrelate(trend, renderObject["EDL"][clipIndex]["url"]);
     }
@@ -270,8 +226,12 @@ function fillVideo(renderObject)
 function videoClicked()
 {
 	player.togglePlayPause();
-	// console.log("toggling");
 	// mouseMove();
+}
+
+function goToNextVideo() {
+	clipIndex = player.returnClipIndex();
+	player.seekToClipIndex(clipIndex + 1);
 }
 
 function mouseMove()
@@ -280,12 +240,6 @@ function mouseMove()
 }
 
 function telecorrelate(trendName, url) {
-	//highlight selected trend name
-	// var selects = document.getElementsByClassName("trendButton");
-	// for(var i =0, il = selects.length;i<il;i++){
-	//      selects[i].style.color = '#ffffff';
-	//   }
-	// event.target.style.color = "#2c3e50"; //'#FCFF32';
 
 	var x = window.innerWidth / 2 - 100; //middle of window minus 100 to account for slider width
 	var slider = document.getElementById("slider");
@@ -307,14 +261,21 @@ function telecorrelate(trendName, url) {
 			var d = x - blockPosition - 50; //margin of telecorrelator and margin of block
 			timeline.style.opacity = 1;
 			timeline.style.left = d + "px";
+			if ((newsSources[i].sourceName == selectedSource) & (matchingVideos.length > 1)) { //for telecorrelating among multiple videos in selected source
+				clipIndex = player.returnClipIndex();
 
-			// var gestureData = {
-			// 	"source": newsSources[i].sourceName,
-			// 	"video": matchingVideo.attributes.url.nodeValue
-			// };
-			// console.log(gestureData);
-			// console.log('emitting event...');
-    		// UMevents.emit('telecorrelate', gestureData);
+				console.log(trendName + "-" + clipIndex);
+				match = $("#" + trendName + "-" + clipIndex);
+				var blockPosition = $(match).position().left;
+				var margin = 0;
+				if ($(match).css("margin-left") == "30px") {
+					margin = 30;
+				}
+
+				var d = x - blockPosition - 20 - margin; //margin of telecorrelator
+				timeline.style.opacity = 1;
+				timeline.style.left = d + "px";
+			}
 
 		}
 		else { //no matching video-- move the whole shit out of the way.
@@ -330,17 +291,26 @@ function telecorrelate(trendName, url) {
 	};
 }
 
-function resetTelecorrelator() {
-	// fillVideo(renderObject); //?
+function switchSource(event) {
+	//remove selected class from selected source
+	selectedSourceTimeline = document.getElementById(selectedSource);
+	selectedSourceTimeline.parentNode.className = 'timeline-wrapper';
+	// selectedSourceTimeline = document.getElementById("selectedSource");
+	// selectedSourceTimeline.className = 'timeline-wrapper';
+
+	source = event.target.attributes.value.value;
 	var timelines = document.getElementsByClassName("timeline");
 	// console.log (timelines);
 	for (var i = 0; i < timelines.length; i++) {
 		timelines[i].style.left = "0px";
 	};
 	document.getElementById("slider").style.left = "-300px";
-	// var selects = document.getElementsByClassName("trendButton");
-	// for(var i =0, il = selects.length;i<il;i++){
-	//      selects[i].style.color = '#ffffff';
-	//   }
 
+	selectedSource = source; //switch source
+
+	//add selected source class name
+	selectedSourceTimeline = document.getElementById(selectedSource);
+	selectedSourceTimeline.parentNode.className += ' selectedSource'
+
+	fillVideo(renderObject); //?
 }

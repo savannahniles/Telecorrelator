@@ -14,8 +14,17 @@ body {
 	position: absolute;
 	top: 0;
 	z-index: 3;
+	text-align: center;
 	-webkit-transition: opacity .5s; /* For Safari 3.1 to 6.0 */
     transition: opacity .5s;
+}
+
+#loading i, #loading p {
+	position: relative;	
+	top: 50%;
+	display: inherit;
+	letter-spacing: 3px;
+
 }
 
 #slider {
@@ -152,12 +161,12 @@ body {
 /*-------        Video Player      -------*/
 
 #um-video-plus-info-wrapper {
-    background: #1abc9c;
+    background: #ecf0f1;
 }
 
 #um-video-wrapper {
 	display: inline-block;
-	background: black;
+	/*background: black;*/
 }
 
 #um-video-wrapper video {
@@ -169,17 +178,18 @@ body {
 	padding: 0px 20px;
 	position: absolute;
 	/*top: -20px;*/
-	color: white;
+	color: #34495e;
+	overflow: scroll;
 }
 
 #video-info h1, #video-info h2, #video-info h3 {
 	margin: 0px;
-	font-weight: 300;
 	letter-spacing: 0px;
 }
 
 #video-info h1, #video-info h2 {
 	display: inline-block;
+	font-weight: 300;
 }
 
 #video-info h1 {
@@ -190,8 +200,14 @@ body {
 	padding-left: 10px;
 }
 
-.blue {
+#video-info h3 {
+	font-weight: 400;
+	font-size: 16px;
 	color: #34495e;
+}
+
+.blue {
+	color: #1abc9c;
 }
 
 /*-------        Timelines        -------*/
@@ -199,7 +215,7 @@ body {
 .timeline-wrapper {
 	white-space: nowrap;
 	overflow-x: hidden;
-	border-bottom: 2px solid #bdc3c7;
+	/*border-bottom: 2px solid #bdc3c7;*/
 	min-width: 100%;
 }
 
@@ -211,7 +227,7 @@ body {
 	width: 10%;
 	overflow: hidden;
 	text-align: center;
-	border-right: 2px dashed #bdc3c7;
+	/*border-right: 2px dashed #bdc3c7;*/
 	z-index: 3;
 }
 

@@ -32,7 +32,7 @@ def getContent():
             'content': []
         }, {
             'sourceName': "ABC", 
-            'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News"],
+            'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News", "AbcNews"],
             'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
             'content': []
         # }, {
@@ -66,7 +66,7 @@ def getContent():
 
     for trend in trends:
         UM_QUERY_API = "http://um-query.media.mit.edu/search/"
-        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=scene" #+ "&after=2014-04-01T04:00:00.000Z"
+        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=scene" + "&after=2014-08-26T00:00:00.000Z"
         umQueryResponse = json.loads(urllib2.urlopen(url).read())
         if umQueryResponse["code"] == 0:
             results = umQueryResponse["results"]
@@ -103,4 +103,5 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print "USAGE: python telecorrelator.py [port #]"
     else:
-        app.run(port = int(sys.argv[1])) # run on the specified port number
+        # app.run(port = int(sys.argv[1])) # run on the specified port number
+        app.run(host = "0.0.0.0", port = int(sys.argv[1]))
