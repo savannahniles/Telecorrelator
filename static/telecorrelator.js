@@ -2,7 +2,7 @@ var telecorrelator; //= document.getElementById('telecorrelator');
 var newsSources;
 // var newsSources = ["CNN", "MSNBC", "Fox", "The Daily Show", "BBC", "ESPN"]
 var player;
-var selectedSource = "BBC";
+var selectedSource = "ABC";
 var renderObject;
 
 function getContent() {
