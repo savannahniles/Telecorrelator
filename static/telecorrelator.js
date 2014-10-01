@@ -113,18 +113,21 @@ function init()
 			content = newsSources[i]["content"],
 			contentPadding = 7,
 			totalContentObjects = content.length,
-			tempContentHtml = "<div onclick=contentClicked() class='content {trend} {timePeriod}' id='{id}' title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px; margin-left:{margin}px'></div>"
+			tempContentHtml = "<div onclick=contentClicked() class='content {marginClass} {trend} {timePeriod}' id='{id}' title={title} url={url} timestamp={timestamp} style='{backgroundImage}; height:{height}px; margin-left:{margin}px'></div>"
 			lastTrend = "";
 
 		//here, go through the source's videos and plop them on the timeline
 		for (var j = 0; j < totalContentObjects; j++) {
-			margin = 30;
+			var margin = 30;
+			var marginClass = "marginLeft";
 			if (lastTrend === content[j]["trend"]) {
 				margin = 0;
+				marginClass = "";
 			}
 			lastTrend = content[j]["trend"];
 			contentHtml += tempContentHtml.replace(/\{height\}/g, h-2*contentPadding)
 				.replace(/\{margin\}/g, margin)
+				.replace("{marginClass}", marginClass)
 				.replace(/\{backgroundImage\}/g, 'background-image:url("' + content[j]["thumbnail"] + '")')
 				.replace("{trend}", content[j]["trend"])
 				.replace("{timePeriod}", content[j]["timePeriod"])
@@ -272,7 +275,9 @@ function telecorrelate(trendName, url) {
 				match = $("#" + trendName + "-" + clipIndex);
 				var blockPosition = $(match).position().left;
 				var margin = 0;
-				if ($(match).css("margin-left") == "30px") {
+				console.log ("testing: " + $(match).hasClass("marginLeft"));
+				// console.log ("testing: " + $(match).css("margin-left"));
+				if ($(match).hasClass("marginLeft")) {
 					margin = 30;
 				}
 
