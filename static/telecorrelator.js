@@ -155,6 +155,10 @@ function init()
 
 }
 
+function buildRenderObject(sourceName) {
+
+}
+
 function fillVideo(renderObject)
 {
 	if (player)
@@ -311,6 +315,15 @@ function switchSource(event) {
 	//add selected source class name
 	selectedSourceTimeline = document.getElementById(selectedSource);
 	selectedSourceTimeline.parentNode.className += ' selectedSource'
+
+	//generate new renderobject
+	for (var i = 0; i < newsSources.length; i++) {
+	var sourceName = newsSources[i]["sourceName"];
+
+		if (sourceName == selectedSource) {
+			renderObject = createRenderObject(newsSources[i]["content"]);
+		}
+	}
 
 	fillVideo(renderObject); //?
 }

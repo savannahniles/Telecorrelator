@@ -70,18 +70,27 @@ def getContent():
         umQueryResponse = json.loads(urllib2.urlopen(url).read())
         if umQueryResponse["code"] == 0:
             results = umQueryResponse["results"]
+            numberOfVideosForTrendPerCreator = {
+                'CNN': 0,
+                'ABC': 0,
+                'BBC': 0,
+                'Fox': 0
+            }
             for video in results:
                 creator = video["creator"]
                 for source in newsSources:
                     if creator in source["matchNames"]:
+                        sourceName = source["sourceName"]
+                        numberOfVideosForTrendPerCreator[sourceName] = numberOfVideosForTrendPerCreator[sourceName] + 1
                         video["trend"] = re.sub(r'\W+', '', trend) #remove spaces so it can be a class name
                         video["timePeriod"] = getTimePeriod(video["timestamp"])
-                        source["content"].append(video)
+                        if numberOfVideosForTrendPerCreator[sourceName] < 4:
+                            source["content"].append(video) 
                         if trend not in trendsList:
                             trendsList.append(trend)
                         break
     response = {'errorCode' : errorCode, 'trends' : trendsList, 'newsSources' : newsSources}
-    print response
+    # print response
     return json.dumps(response)
 
 def getTimePeriod (timestamp):
