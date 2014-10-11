@@ -31,17 +31,17 @@ def getContent():
             'thumbnail': "http://www.logotypes101.com/logos/818/0DC42F494DC71D10AA9168972ECCFDD3/CNN282.png",
             'content': []
         }, {
-            'sourceName': "ABC", 
+            'sourceName': "ABC",
             'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News", "AbcNews"],
             'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
             'content': []
         # }, {
-        #     'sourceName': "CBS", 
+        #     'sourceName': "CBS",
         #     'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
         #     'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
         #     'content': []
         }, {
-            'sourceName': "BBC", 
+            'sourceName': "BBC",
             'matchNames': ["BBC", "BBC News", "BBCnews", "BBC World News"],
             'thumbnail': "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT2VI5VQgveLK38CbIMeW5jO753dYaQuKdBLZQE6X1yR1Y3-p4oPxPshPg",
             'content': []
@@ -66,7 +66,7 @@ def getContent():
 
     for trend in trends:
         UM_QUERY_API = "http://um-query.media.mit.edu/search/"
-        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=scene" + "&after=2014-08-26T00:00:00.000Z"
+        url = UM_QUERY_API + urllib2.quote(trend.encode('utf-8')) + "?segmentType=scene" + "&after=2014-09-01T00:00:00.000Z"
         umQueryResponse = json.loads(urllib2.urlopen(url).read())
         if umQueryResponse["code"] == 0:
             results = umQueryResponse["results"]
@@ -85,7 +85,7 @@ def getContent():
                         video["trend"] = re.sub(r'\W+', '', trend) #remove spaces so it can be a class name
                         video["timePeriod"] = getTimePeriod(video["timestamp"])
                         if numberOfVideosForTrendPerCreator[sourceName] < 4:
-                            source["content"].append(video) 
+                            source["content"].append(video)
                         if trend not in trendsList:
                             trendsList.append(trend)
                         break
