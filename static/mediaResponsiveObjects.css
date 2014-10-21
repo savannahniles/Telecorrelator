@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Avenir;
+    src: url(/static/avenir.ttf);
+}
+
 h1 {
 	font-family: Avenir;
 	font-weight: lighter;
@@ -7,6 +12,10 @@ h1 {
 img {
 	width: 1068px;
 	margin: 20px auto;
+}
+
+#coffeeCupImg {
+	margin-bottom: 1000px;
 }
 
 .container {
