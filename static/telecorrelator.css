@@ -179,7 +179,7 @@ body {
 	position: absolute;
 	/*top: -20px;*/
 	color: #34495e;
-	overflow: scroll;
+	overflow: hidden;
 }
 
 #video-info h1, #video-info h2, #video-info h3 {
