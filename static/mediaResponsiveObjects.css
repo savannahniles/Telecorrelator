@@ -23,6 +23,7 @@ img {
 	top: 361px;
 	position: absolute;
 	width: 98px;
+	-webkit-transform: rotate(43deg);
 	transform: rotate(43deg);
 }
 
@@ -31,6 +32,7 @@ img {
 	top: 108px;
 	position: absolute;
 	width: 72px;
+	-webkit-transform: rotateX(37deg) rotateY(133deg);
 	transform: rotateX(37deg) rotateY(133deg);
 }
 
@@ -39,6 +41,7 @@ img {
 	top: 327px;
 	position: absolute;
 	width: 97px;
+	-webkit-transform: rotateY(49deg);
 	transform: rotateY(49deg);
 }
 
@@ -55,6 +58,7 @@ img {
 	top: 118px;
 	position: absolute;
 	width: 47px;
+	-webkit-transform: rotateY(141deg);
 	transform: rotateY(141deg);
 }
 
@@ -63,6 +67,7 @@ img {
 	top: 185px;
 	position: absolute;
 	width: 72px;
+	-webkit-transform: rotateY(149deg) rotate(2deg);
 	transform: rotateY(149deg) rotate(2deg);
 }
 
