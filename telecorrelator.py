@@ -35,38 +35,88 @@ def getContent():
             'thumbnail': "http://www.logotypes101.com/logos/818/0DC42F494DC71D10AA9168972ECCFDD3/CNN282.png",
             'content': []
         }, {
-            'sourceName': "ABC",
-            'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News", "AbcNews"],
-            'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
-            'content': []
-        # }, {
-        #     'sourceName': "CBS",
-        #     'matchNames': ["CBS", "CBS Sports", "CBS (WBZ)"],
-        #     'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
+        #     'sourceName': "ABC",
+        #     'matchNames': ["23ABCnews", "ABC (WCVB)", "ABC News", "AbcNews", "ABC7 WJLA", "Super News Planet"],
+        #     'thumbnail': "http://media.10news.com/photo/2012/09/30/ABC-Logo-AP-Image-9676346_175336_ver1.0_320_240.jpg",
         #     'content': []
+        # }, {
+            'sourceName': "CBS",
+            'matchNames': ["CBS", "CBS Sports", "CBS (WBZ) ", "CBS New York", "VOAvideo", "CBS SF Bay Area"],
+            'thumbnail': "http://goldmusiclibrary.com/wp-content/uploads/cbs-logo.jpg",
+            'content': []
         }, {
             'sourceName': "BBC",
             'matchNames': ["BBC", "BBC News", "BBCnews", "BBC World News"],
             'thumbnail': "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT2VI5VQgveLK38CbIMeW5jO753dYaQuKdBLZQE6X1yR1Y3-p4oPxPshPg",
             'content': []
         }, {
-            'sourceName': "Fox",
-            'matchNames': ["FOX (WFXT)"],
-            'thumbnail': "http://sbg.okcfox.com/newsroom/morning_news/images/kokh_ms_stopframe_320x240.jpg",
+            'sourceName': "USA Today",
+            'matchNames': ["USA TODAY"],
+            'thumbnail': "https://pbs.twimg.com/profile_images/461560356314165249/Ik1AqEj4_400x400.png",
             'content': []
-        }#,  {
-        #     'sourceName': "ESPN",
-        #     'matchNames': ["ESPN"],
-        #     'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
-        #     'content': []
-        # },  {
-        #     'sourceName': "Helios",
-        #     'matchNames': ["ESPN"],
-        #     'thumbnail': "http://um-helios.media.mit.edu/resources/Helios.png",
-        #     'content': []
-        # }
+        },  {
+            'sourceName': "ESPN",
+            'matchNames': ["ESPN", "206"],
+            'thumbnail': "http://i.imgur.com/QSQdgGq.jpg",
+            'content': []
+       },  {
+            'sourceName': "MSNBC",
+            'matchNames': ["MSNBC"],
+            'thumbnail': "http://fontmeme.com/images/MSNBC-Logo.jpg",
+            'content': []
+        }, {
+            'sourceName': "The White House",
+            'matchNames': ["The White House"],
+            'thumbnail': "http://www.socialmediadelivered.com/wp-content/uploads/2012/02/profile_icon_01.jpg",
+            'content': []
+        }
     ]
-    trends = json.loads(urllib2.urlopen("http://um.media.mit.edu:5005/trends").read())['json_list']
+    trends = [
+"Ukraine",
+"China",
+"Gaza",
+"Police",
+"Gough Whitlam",
+"Percy Harvin",
+"Cold War",
+"Iran",
+"Manchester United F.C.",
+"Baghdad",
+"iPhone",
+"Iraq",
+"Oscar de la Renta",
+"Palestine",
+"Apple",
+"Ebola",
+"Indiana",
+"Dallas Cowboys",
+"Kansas City Royals",
+"Boko Haram",
+"Oscar Pistorius",
+"Shinz? Abe",
+"European Union",
+"University of Virginia",
+"Joko Widodo",
+"Bharatiya Janata Party",
+"IBM",
+"Talladega",
+"Dilma Rousseff",
+"Syria",
+"Philippines",
+"Fury",
+"Yemen",
+"Peyton Manning",
+"Russia",
+"Serena Williams",
+"New Orleans Saints",
+"Miami Dolphins",
+"Nepal",
+"Hamas",
+"Seattle Seahawks",
+"Woman",
+"Liverpool F.C.",
+"Pope Francis"
+]
 
     for trend in trends:
         UM_QUERY_API = "http://um-query.media.mit.edu/search/"
@@ -76,9 +126,13 @@ def getContent():
             results = umQueryResponse["results"]
             numberOfVideosForTrendPerCreator = {
                 'CNN': 0,
-                'ABC': 0,
+                # 'ABC': 0,
+                'MSNBC': 0,
+                'CBS': 0,
                 'BBC': 0,
-                'Fox': 0
+                'USA Today': 0,
+                'ESPN': 0,
+                'The White House': 0
             }
             for video in results:
                 creator = video["creator"]
