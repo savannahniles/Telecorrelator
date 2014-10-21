@@ -1,0 +1,68 @@
+h1 {
+	font-family: Avenir;
+	font-weight: lighter;
+	color: #8FDFF2;
+}
+
+img {
+	width: 1068px;
+	margin: 20px auto;
+}
+
+.container {
+	position: relative;
+}
+
+.box {
+	width: 75%;
+	margin: 0px auto;
+}
+
+#food {
+	left: 385px;
+	top: 361px;
+	position: absolute;
+	width: 98px;
+	transform: rotate(43deg);
+}
+
+#desk2 {
+	left: 673px;
+	top: 108px;
+	position: absolute;
+	width: 72px;
+	transform: rotateX(37deg) rotateY(133deg);
+}
+
+#desk1 {
+	left: 324px;
+	top: 327px;
+	position: absolute;
+	width: 97px;
+	transform: rotateY(49deg);
+}
+
+#coffeeCup {
+	left: 297px;
+	top: 215px;
+	position: absolute;
+	width: 502px;
+	z-index: -1;
+}
+
+#bedroom {
+	left: 118px;
+	top: 118px;
+	position: absolute;
+	width: 47px;
+	transform: rotateY(141deg);
+}
+
+#cafe {
+	left: 252px;
+	top: 185px;
+	position: absolute;
+	width: 72px;
+	transform: rotateY(149deg) rotate(2deg);
+}
+

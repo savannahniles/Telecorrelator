@@ -15,6 +15,10 @@ app.debug=True
 def telecorrelator():
     return render_template('telecorrelator.html')
 
+@app.route('/mediaResponsiveObjects')
+def mediaResponsiveObjects():
+    return render_template('mediaResponsiveObjects.html')
+
 @app.route('/source/<sourceName>')
 def show_source(sourceName):
     return render_template('source.html', source=sourceName)
