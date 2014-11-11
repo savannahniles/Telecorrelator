@@ -1,7 +1,7 @@
-Telecorrelator
+Video Headlines Demo Page
 ==============
 
 To start the server
 -------------------
 
-python telecorrelator.py [portnumber]
+python videoheadlines.py [portnumber]

@@ -1,0 +1,10 @@
+@font-face {
+    font-family: Avenir;
+    src: url(/static/avenir.ttf);
+}
+
+h1 {
+	font-family: Avenir;
+	font-weight: lighter;
+	color: #8FDFF2;
+}
